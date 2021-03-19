@@ -1,30 +1,32 @@
 package project1;
 
 import javax.swing.*;
-import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.*;
 
 public class NRZI extends JFrame{
 
     private int lineCounter = 0;
     private int actualHeight;
 
+    /**
+     * @name NRZI Constructor
+     * @param panel the panel where the user will display the result.
+     * @param binaryNumber the number written by the user.
+     */
     public NRZI(JPanel panel, String binaryNumber){
+
         int panelWidth = 980;
         int panelHeight = 40;
-        //int panelWidth = panel.getWidth();
-        //int panelHeight = panel.getHeight();
         actualHeight = panelHeight;
         int binaryNumberLength = binaryNumber.length();
-
         int lineWidth = (int) panelWidth/binaryNumberLength;
 
+        // Label that indicates the written number
+        JLabel nrziLabel = new JLabel();
+        nrziLabel.setText("NRZI of the message: " + binaryNumber);
+        nrziLabel.setFont(new Font("Calibri", Font.BOLD, 16));
 
-        System.out.println(panel.getWidth());
-        System.out.println(panel.getHeight());
-        System.out.println(panel.getX());
-        System.out.println(panel.getY());
-
+        // Panel where the the lines are drawn
         JPanel nrziPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -32,11 +34,12 @@ public class NRZI extends JFrame{
 
                 // Axis line
                 g.drawLine(0, (int) actualHeight/2, panelWidth, (int) actualHeight/2);
-                //g.drawLine(0,0, panelWidth, 0);
-                //g.drawLine(0,actualHeight, panelWidth, 900);
-                g.setColor(Color.red);
+
+                // Signal lines and divisions
                 for (char bit: binaryNumber.toCharArray()) {
                     lineCounter++;
+
+                    // Y position changes if the bit is a 1
                     if (bit == '1') {
                         if (actualHeight == 0) {
                             actualHeight = panelHeight;
@@ -44,13 +47,17 @@ public class NRZI extends JFrame{
                             actualHeight = 0;
                         }
                     }
+                    g.setColor(Color.red);
                     g.drawLine(lineWidth*(lineCounter-1), actualHeight, lineWidth*lineCounter, actualHeight);
+                    g.setColor(Color.gray);
+                    g.drawLine(lineWidth*(lineCounter-1), 0, lineWidth*(lineCounter-1), panelHeight);
 
                 }
             };
 
         };
 
+        nrziPanel.add(nrziLabel);
         panel.add(nrziPanel);
 
     }
