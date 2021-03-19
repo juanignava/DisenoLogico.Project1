@@ -39,11 +39,16 @@ public class GUI implements ActionListener {
 
         // Basic components
         binaryNumberLabel = new JLabel("Enter a binary number:");
+        binaryNumberLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
 
         binaryNumberField = new JTextField(10);
+        binaryNumberField.setFont(new Font("Calibri", Font.PLAIN, 16));
         binaryNumberField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 binaryNumberLabel.setText("Enter a binary number:");
+                binaryNumberField.setText("");
+                binaryNumberField.setBackground(Color.WHITE);
+                mainFrame.pack();
             }
 
             public void focusLost(FocusEvent e) {
@@ -52,11 +57,16 @@ public class GUI implements ActionListener {
         });
 
         errorBitLabel = new JLabel("Enter the error bit position:");
+        errorBitLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
 
         errorBitField = new JTextField(5);
+        errorBitField.setFont(new Font("Calibri", Font.PLAIN, 16));
         errorBitField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 errorBitLabel.setText("Enter a binary number:");
+                errorBitField.setText("");
+                errorBitField.setBackground(Color.WHITE);
+                mainFrame.pack();
             }
 
             public void focusLost(FocusEvent e) {
@@ -66,6 +76,8 @@ public class GUI implements ActionListener {
 
         JButton startButton = new JButton("Start analysis");
         startButton.addActionListener(this);
+        startButton.setFont(new Font("Calibri", Font.PLAIN, 16));
+        startButton.setBackground(Color.LIGHT_GRAY);
 
         inputPanel.add(binaryNumberLabel);
         inputPanel.add(binaryNumberField);
@@ -108,7 +120,7 @@ public class GUI implements ActionListener {
             mainPanel.repaint();
 
         }
-
+        mainFrame.pack();
     }
 
     private boolean checkBinaryNumber(String binaryNumberText) {
@@ -117,6 +129,7 @@ public class GUI implements ActionListener {
             String validNumbers = "01";
             if (bit != '1' && bit != '0'){
                 binaryNumberLabel.setText("Your number is not binary");
+                binaryNumberField.setBackground(Color.pink);
                 return false;
             }
         }
@@ -130,6 +143,7 @@ public class GUI implements ActionListener {
             int bitNumber = Integer.parseInt(bitPosition);
             if ( bitNumber >= binaryLength){
                 errorBitLabel.setText("Your bit is not valid");
+                errorBitField.setBackground(Color.pink);
                 return false;
             }
             return true;
@@ -137,6 +151,7 @@ public class GUI implements ActionListener {
 
         catch (Exception e){
             errorBitLabel.setText("The position must be a number");
+            errorBitField.setBackground(Color.pink);
             return false;
         }
 
