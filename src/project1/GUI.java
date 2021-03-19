@@ -23,7 +23,7 @@ public class GUI implements ActionListener {
 
         // Panels
         mainPanel = new JPanel();
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30,10, 30));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30,0, 30));
         mainPanel.setLayout(new GridLayout(0, 1));
 
         JPanel inputPanel = new JPanel();
@@ -31,6 +31,7 @@ public class GUI implements ActionListener {
 
         nrziPanel = new JPanel();
         nrziPanel.setLayout(new FlowLayout());
+
 
         conversionsPanel = new JPanel();
         conversionsPanel.setLayout(new FlowLayout());
@@ -48,7 +49,6 @@ public class GUI implements ActionListener {
                 binaryNumberLabel.setText("Enter a binary number:");
                 binaryNumberField.setText("");
                 binaryNumberField.setBackground(Color.WHITE);
-                mainFrame.pack();
             }
 
             public void focusLost(FocusEvent e) {
@@ -66,7 +66,6 @@ public class GUI implements ActionListener {
                 errorBitLabel.setText("Enter a binary number:");
                 errorBitField.setText("");
                 errorBitField.setBackground(Color.WHITE);
-                mainFrame.pack();
             }
 
             public void focusLost(FocusEvent e) {
@@ -87,15 +86,13 @@ public class GUI implements ActionListener {
 
         // Add components in the main panel
         mainPanel.add(inputPanel);
-        mainPanel.add(nrziPanel);
-        mainPanel.add(conversionsPanel);
-        mainPanel.add(hammingPanel);
 
         // Set up the frame and display it
         mainFrame.add(mainPanel, BorderLayout.CENTER);
+        mainFrame.setSize(1000, 700);
+        mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("Binary Analysis");
-        mainFrame.pack();
         mainFrame.setVisible(true);
     }
 
@@ -113,14 +110,14 @@ public class GUI implements ActionListener {
         if (checkBinaryNumber(binaryNumberText)
                 && checkBitPosition(bitPositionText, binaryNumberText)){
 
-            new NRZI(this.nrziPanel, this.binaryNumberField.getText());
-            new Conversions(this.conversionsPanel, this.binaryNumberField.getText());
-            new Hamming(this.hammingPanel, this.binaryNumberField.getText(), this.errorBitField.getText());
+            new NRZI(this.mainPanel, this.binaryNumberField.getText());
+            new Conversions(this.mainPanel, this.binaryNumberField.getText());
+            new Hamming(this.mainPanel, this.binaryNumberField.getText(), this.errorBitField.getText());
+
             mainPanel.revalidate();
             mainPanel.repaint();
 
         }
-        mainFrame.pack();
     }
 
     private boolean checkBinaryNumber(String binaryNumberText) {
