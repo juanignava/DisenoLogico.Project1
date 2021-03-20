@@ -1,6 +1,5 @@
 package project1;
 
-import org.omg.PortableInterceptor.INACTIVE;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

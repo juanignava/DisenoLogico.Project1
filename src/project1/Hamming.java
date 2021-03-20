@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Hamming {
 
-    public Hamming (JPanel panel, String binaryNumber, String errorBitField){
+    public Hamming (JPanel panel, String binaryNumber, String errorBitField, boolean parityBoolean){
 
         JPanel hammingPanel = new JPanel();
         // Create the tables with the results ...

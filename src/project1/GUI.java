@@ -2,10 +2,7 @@ package project1;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 
 public class GUI implements ActionListener {
 
@@ -17,6 +14,7 @@ public class GUI implements ActionListener {
     private JLabel binaryNumberLabel;
     private JLabel errorBitLabel;
     private JButton startButton;
+    private JComboBox parityBox;
 
     public GUI(){
 
@@ -29,7 +27,7 @@ public class GUI implements ActionListener {
         inputPanel.setLayout(new FlowLayout());
 
         // Labels characteristics
-        binaryNumberLabel = new JLabel("Enter a binary number:");
+        binaryNumberLabel = new JLabel("Enter a 12 bit binary number:");
         binaryNumberLabel.setFont(new Font("Calibri", Font.PLAIN, 16));
 
         errorBitLabel = new JLabel("Enter the error bit position:");
@@ -40,7 +38,7 @@ public class GUI implements ActionListener {
         binaryNumberField.setFont(new Font("Calibri", Font.PLAIN, 16));
         binaryNumberField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                binaryNumberLabel.setText("Enter a binary number:");
+                binaryNumberLabel.setText("Enter a 12 bit binary number:");
                 binaryNumberField.setText("");
                 binaryNumberField.setBackground(Color.WHITE);
             }
@@ -54,7 +52,7 @@ public class GUI implements ActionListener {
         errorBitField.setFont(new Font("Calibri", Font.PLAIN, 16));
         errorBitField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                errorBitLabel.setText("Enter a binary number:");
+                errorBitLabel.setText("Enter a 12 bit binary number:");
                 errorBitField.setText("");
                 errorBitField.setBackground(Color.WHITE);
             }
@@ -63,6 +61,11 @@ public class GUI implements ActionListener {
                 // nothing
             }
         });
+
+        // Combo box characteristics
+        String options[] = {"Even Parity", "Odd Parity"};
+        parityBox = new JComboBox(options);
+        parityBox.setFont(new Font("Calibri", Font.PLAIN, 16));
 
         // Button characteristics
         startButton = new JButton("Start analysis");
@@ -75,6 +78,7 @@ public class GUI implements ActionListener {
         inputPanel.add(binaryNumberField);
         inputPanel.add(errorBitLabel);
         inputPanel.add(errorBitField);
+        inputPanel.add(parityBox);
         inputPanel.add(startButton);
         mainPanel.add(inputPanel);
 
@@ -101,18 +105,24 @@ public class GUI implements ActionListener {
         // Validates the information given
         if (checkBinaryNumber(binaryNumberText)
                 && checkBitPosition(bitPositionText, binaryNumberText)){
+            boolean parityBoolean = true;
+            if (parityBox.getSelectedItem() == "Odd Parity"){
+                parityBoolean = false;
+            }
+            System.out.println(parityBoolean);
 
             // NRZI class displays the graphic in the panel
             new NRZI(this.mainPanel, this.binaryNumberField.getText());
             // Conversions class displays the binary number conversions in the panel
             new Conversions(this.mainPanel, this.binaryNumberField.getText());
             // Hamming class displays the tables in the panel
-            new Hamming(this.mainPanel, this.binaryNumberField.getText(), this.errorBitField.getText());
+            new Hamming(this.mainPanel, this.binaryNumberField.getText(), this.errorBitField.getText(), parityBoolean);
 
             // Disable inputs
             startButton.setEnabled(false);
             errorBitField.setEnabled(false);
             binaryNumberField.setEnabled(false);
+            parityBox.setEnabled(false);
 
             // Repaint the main panel to show the changes
             mainPanel.revalidate();
@@ -128,6 +138,11 @@ public class GUI implements ActionListener {
      * @return
      */
     private boolean checkBinaryNumber(String binaryNumberText) {
+
+        if (binaryNumberText.length() != 12) {
+            binaryNumberLabel.setText("The number must have 12 bits");
+            return false;
+        }
 
         for (char bit: binaryNumberText.toCharArray()){
             String validNumbers = "01";
