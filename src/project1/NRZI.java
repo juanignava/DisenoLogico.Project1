@@ -23,7 +23,12 @@ public class NRZI extends JFrame{
 
         // Label that indicates the written number
         JLabel nrziLabel = new JLabel();
-        nrziLabel.setText("NRZI of the message: " + binaryNumber);
+        nrziLabel.setText(binaryNumber.substring(0,1));
+        for (char bit: binaryNumber.substring(1).toCharArray()) {
+            nrziLabel.setText(nrziLabel.getText() +
+                    "                  " + bit);
+        }
+        //nrziLabel.setText("NRZI of the message: " + binaryNumber);
         nrziLabel.setFont(new Font("Calibri", Font.BOLD, 16));
 
         // Panel where the the lines are drawn
@@ -56,7 +61,7 @@ public class NRZI extends JFrame{
             };
 
         };
-
+        nrziPanel.setBorder(BorderFactory.createEmptyBorder(0, 0,0, 0));
         nrziPanel.add(nrziLabel);
         panel.add(nrziPanel);
 

@@ -20,7 +20,7 @@ public class GUI implements ActionListener {
 
         // Panels characteristics
         mainPanel = new JPanel();
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 30,0, 30));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 10,0, 10));
         mainPanel.setLayout(new GridLayout(0, 1));
 
         JPanel inputPanel = new JPanel();
@@ -47,12 +47,28 @@ public class GUI implements ActionListener {
                 // nothing
             }
         });
+        binaryNumberField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                int binaryBitsLeft = 12-binaryNumberField.getText().length();
+                String bitsLeft = String.valueOf(binaryBitsLeft);
+                if (binaryBitsLeft > 0){
+                    binaryNumberLabel.setText("Amount of bits left: " + bitsLeft);
+                }
+                else if (binaryBitsLeft == 0){
+                    binaryNumberLabel.setText("Done");
+                }
+                else {
+                    binaryNumberLabel.setText("Your number is over 12 bits");
+                }
+            }
+        });
 
         errorBitField = new JTextField(5);
         errorBitField.setFont(new Font("Calibri", Font.PLAIN, 16));
         errorBitField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                errorBitLabel.setText("Enter a 12 bit binary number:");
+                errorBitLabel.setText("Enter the error bit position:");
                 errorBitField.setText("");
                 errorBitField.setBackground(Color.WHITE);
             }
