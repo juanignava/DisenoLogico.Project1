@@ -1,7 +1,5 @@
 package project1;
 
-import org.omg.PortableInterceptor.INACTIVE;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -107,7 +105,7 @@ public class Conversions {
                 { "Hexadecimal", getHexadecimalValue(binaryNumber)},
         };
 
-        String[] header = { "Base", "Resultado"};
+        String[] header = { "Base", "Result"};
         JTable table = new JTable(results, header);
         conversionsPanel.add(new JScrollPane(table), Component.CENTER_ALIGNMENT);
     }

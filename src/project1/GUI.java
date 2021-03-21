@@ -107,7 +107,7 @@ public class GUI implements ActionListener {
             // Conversions class displays the binary number conversions in the panel
             new Conversions(this.mainPanel, this.binaryNumberField.getText());
             // Hamming class displays the tables in the panel
-            new Hamming(this.mainPanel, this.binaryNumberField.getText(), this.errorBitField.getText());
+            new Hamming(this.mainPanel, this.binaryNumberField.getText(), this.errorBitField.getText(), true);
 
             // Disable inputs
             startButton.setEnabled(false);
