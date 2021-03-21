@@ -12,8 +12,10 @@ public class Hamming {
         panel.add(hammingPanel);
 
         hammingPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Table 3. Calculation of Hamming coded parity bits", TitledBorder.CENTER,
+                BorderFactory.createEtchedBorder(), "Table 2. Calculation of Hamming coded parity bits", TitledBorder.CENTER,
                 TitledBorder.TOP));
+
+        //rows for table 2 (Hamming codification)
         String[] row0 = this.getWord(binaryNumber);
         String[] row1 = this.getParityBit1(binaryNumber, pairParity);
         String[] row2 = this.getParityBit2(binaryNumber, pairParity);
@@ -23,8 +25,8 @@ public class Hamming {
         String[] word = this.getCodedWord(row1, row2, row3, row4, row5);
 
         String[][] results = { row0, row1, row2, row3, row4, row5, word};
-
         String[] headers = { "  ", "P1", "P2", "D1", "P3", "D2", "D3", "D4", "P4", "D5", "D6", "D7", "D8", "D9", "D10", "D11", "P5", "D12"};
+
         JTable table = new JTable(results, headers);
         table.getColumnModel().getColumn(0).setPreferredWidth(800);
         table.getColumnModel().getColumn(14).setPreferredWidth(150);
@@ -33,11 +35,11 @@ public class Hamming {
         hammingPanel.add(new JScrollPane(table), Component.CENTER_ALIGNMENT);
     }
 
-    public Hamming(String word){
-        String[] bits = getParityBit5(word, true);
-        for (int i = 0; i < bits.length; i++) System.out.print(bits[i]);
-    }
-
+    /**
+     * Sets the first row in table: the original row with every bit positioned in the corresponding column
+     * @param binaryNumber  String with the 12 bit binary digit
+     * @return word String array for the first row in table
+     */
     private String[] getWord(String binaryNumber){
         String[] word = new String[18];
         word[0] = "Word";
@@ -61,6 +63,15 @@ public class Hamming {
         return word;
     }
 
+    /**
+     * Sets the last row: Hamming coded word
+     * @param row1
+     * @param row2
+     * @param row3
+     * @param row4
+     * @param row5
+     * @return word String array for the last row
+     */
     private String[] getCodedWord(String[] row1, String[] row2, String[] row3, String[] row4, String[] row5){
         String[] word = new String[18];
         word[0] = "Coded Word";
@@ -84,9 +95,15 @@ public class Hamming {
         return word;
     }
 
+    /**
+     *Sets row for parity bit 1
+     * @param binaryNumber  String with the 12 bit binary digit
+     * @param pairParity    boolean (true -> even parity / false -> odd parity)
+     * @return  word String array
+     */
     private String[] getParityBit1(String binaryNumber, boolean pairParity){
         char[] bits = new char[17];
-        bits[0] = '?';
+        bits[0] = '?'; //parity bit position
         bits[1] = ' ';
         bits[2] = binaryNumber.charAt(0);
         bits[3] = ' ';
@@ -111,6 +128,12 @@ public class Hamming {
         return word;
     }
 
+    /**
+     *Sets row for parity bit 2
+     * @param binaryNumber  String with the 12 bit binary digit
+     * @param pairParity    boolean (true -> even parity / false -> odd parity)
+     * @return  word String array
+     */
     private String[] getParityBit2(String binaryNumber, boolean pairParity){
         char[] bits = new char[17];
         bits[0] = ' ';
@@ -138,6 +161,12 @@ public class Hamming {
         return word;
     }
 
+    /**
+     *Sets row for parity bit 3
+     * @param binaryNumber  String with the 12 bit binary digit
+     * @param pairParity    boolean (true -> even parity / false -> odd parity)
+     * @return  word String array
+     */
     private String[] getParityBit3(String binaryNumber, boolean pairParity){
         char[] bits = new char[17];
         bits[0] = ' ';
@@ -165,6 +194,12 @@ public class Hamming {
         return word;
     }
 
+    /**
+     *Sets row for parity bit 4
+     * @param binaryNumber  String with the 12 bit binary digit
+     * @param pairParity    boolean (true -> even parity / false -> odd parity)
+     * @return  word String array
+     */
     private String[] getParityBit4(String binaryNumber, boolean pairParity) {
         char[] bits = new char[17];
         bits[0] = ' ';
@@ -192,6 +227,12 @@ public class Hamming {
         return word;
     }
 
+    /**
+     *Sets row for parity bit 5
+     * @param binaryNumber  String with the 12 bit binary digit
+     * @param pairParity    boolean (true -> even parity / false -> odd parity)
+     * @return  word String array
+     */
     private String[] getParityBit5(String binaryNumber, boolean pairParity) {
         char[] bits = new char[17];
         bits[0] = ' ';
@@ -218,7 +259,14 @@ public class Hamming {
         String[] word = toStrArray(bits, "P5");
         return word;
     }
-        private char getParityBit(String bits, boolean pairParity){
+
+    /**
+     * Returns the value of the parity bit. Counts the amount of ones and sets the value depending on the parity type (even or odd)
+     * @param bits  String with the 12 bit binary digit
+     * @param pairParity boolean (true -> even parity / false -> odd parity)
+     * @return value    Char with value for parity bit ('1' or '0')
+     */
+    private char getParityBit(String bits, boolean pairParity){
         char value;
         if (pairParity){ //even parity
             if(this.countOnes(bits) % 2 == 0) value = '0';//even amount of ones in binaryNumber: Parity bit = 0
@@ -230,6 +278,13 @@ public class Hamming {
 
         return value;
     }
+
+    /**
+     * Parses char array to String array. Adds header to position 0 in the array
+     * @param bits  char array
+     * @param header    String
+     * @return word String array : row ready for table
+     */
     private String[] toStrArray(char[] bits, String header){
         int length = bits.length;
         String[] word = new String[length + 1];
@@ -255,9 +310,6 @@ public class Hamming {
         return count;
     }
 
-    public static void main(String[] args) {
-        new Hamming("011011011100");
-    }
 }
 
 
