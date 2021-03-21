@@ -15,6 +15,7 @@ public class GUI implements ActionListener {
     private JLabel errorBitLabel;
     private JButton startButton;
     private JComboBox parityBox;
+    private boolean isFirstNumber = true;
 
     public GUI(){
 
@@ -121,11 +122,22 @@ public class GUI implements ActionListener {
         // Validates the information given
         if (checkBinaryNumber(binaryNumberText)
                 && checkBitPosition(bitPositionText, binaryNumberText)){
+
+            // Delete previous panel children
+            if (!this.isFirstNumber){
+                this.mainPanel.remove(3);
+                this.mainPanel.remove(2);
+                this.mainPanel.remove(1);
+                mainPanel.revalidate();
+                mainPanel.repaint();
+            }
+            this.isFirstNumber = false;
+
+            // Define parity boolean
             boolean parityBoolean = true;
             if (parityBox.getSelectedItem() == "Odd Parity"){
                 parityBoolean = false;
             }
-            System.out.println(parityBoolean);
 
             // NRZI class displays the graphic in the panel
             new NRZI(this.mainPanel, this.binaryNumberField.getText());
@@ -133,12 +145,6 @@ public class GUI implements ActionListener {
             new Conversions(this.mainPanel, this.binaryNumberField.getText());
             // Hamming class displays the tables in the panel
             new Hamming(this.mainPanel, this.binaryNumberField.getText(), this.errorBitField.getText(), parityBoolean);
-
-            // Disable inputs
-            startButton.setEnabled(false);
-            errorBitField.setEnabled(false);
-            binaryNumberField.setEnabled(false);
-            parityBox.setEnabled(false);
 
             // Repaint the main panel to show the changes
             mainPanel.revalidate();
