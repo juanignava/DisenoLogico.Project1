@@ -87,6 +87,9 @@ public class Hamming {
         decodingTable.getColumnModel().getColumn(19).setPreferredWidth(100);
         decodingTable.getColumnModel().getColumn(20).setPreferredWidth(100);
 
+        this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(14), "D10");
+        this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(15), "D11");
+        this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(17), "D12");
         this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(18), "Decoded Parity");
         this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(19), "Coded Parity");
         this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(20), "Error Calculation");
@@ -111,6 +114,7 @@ public class Hamming {
         renderer.setToolTipText(text);
         column.setCellRenderer(renderer);
     }
+
     /**
      * Sets the first row in table: the original row with every bit positioned in the corresponding column
      * @param binaryNumber  String with the 12 bit binary digit
