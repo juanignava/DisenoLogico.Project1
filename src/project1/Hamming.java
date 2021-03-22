@@ -1,6 +1,10 @@
 package project1;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
@@ -73,6 +77,7 @@ public class Hamming {
         String[] decodingHeaders = { "  ", "P1", "P2", "D1", "P3", "D2", "D3", "D4", "P4", "D5", "D6", "D7", "D8", "D9", "D10", "D11", "P5", "D12",
                                      "Decoded Parity", "Coded Parity", "Error Calculation"};
 
+
         JTable decodingTable = new JTable(decodingResults, decodingHeaders);
         decodingTable.getColumnModel().getColumn(0).setPreferredWidth(100);
         decodingTable.getColumnModel().getColumn(14).setPreferredWidth(100);
@@ -81,6 +86,11 @@ public class Hamming {
         decodingTable.getColumnModel().getColumn(18).setPreferredWidth(100);
         decodingTable.getColumnModel().getColumn(19).setPreferredWidth(100);
         decodingTable.getColumnModel().getColumn(20).setPreferredWidth(100);
+
+        this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(18), "Decoded Parity");
+        this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(19), "Coded Parity");
+        this.setUpColumnTipText(decodingTable, decodingTable.getColumnModel().getColumn(20), "Error Calculation");
+
         hammingPanel.add(new JScrollPane(decodingTable), Component.CENTER_ALIGNMENT);
 
         String errorResultStr = this.createNumber(errorResults);
@@ -95,6 +105,12 @@ public class Hamming {
 
     }
 
+    private void setUpColumnTipText(JTable table, TableColumn column, String text){
+        DefaultTableCellRenderer renderer =
+                new DefaultTableCellRenderer();
+        renderer.setToolTipText(text);
+        column.setCellRenderer(renderer);
+    }
     /**
      * Sets the first row in table: the original row with every bit positioned in the corresponding column
      * @param binaryNumber  String with the 12 bit binary digit
