@@ -16,7 +16,8 @@ public class Hamming {
         panel.add(hammingPanel);
 
         hammingPanel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createEtchedBorder(), "Table 2. Calculation of Hamming coded parity bits", TitledBorder.CENTER,
+                BorderFactory.createEtchedBorder(), "Table 2. Calculation of Hamming coded parity bits          " +
+                                                         "Table 3. Decodification of  Hamming coded word", TitledBorder.CENTER,
                 TitledBorder.TOP));
 
         //rows for table 2 (Hamming codification)
