@@ -101,7 +101,7 @@ public class GUI implements ActionListener {
 
         // Set up the frame and display it
         mainFrame.add(mainPanel, BorderLayout.CENTER);
-        mainFrame.setSize(1000, 1000);
+        mainFrame.setSize(1200, 1000);
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setTitle("Binary Analysis");

@@ -24,7 +24,9 @@ public class Hamming {
         String[] row5 = this.getParityBit5(binaryNumber, pairParity);
         String[] word = this.getCodedWord(row1, row2, row3, row4, row5);
 
-        String[][] results = { row0, row1, row2, row3, row4, row5, word};
+        String[] positions = {"Position", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+
+        String[][] results = { positions, row0, row1, row2, row3, row4, row5, word};
         String[] headers = { "  ", "P1", "P2", "D1", "P3", "D2", "D3", "D4", "P4", "D5", "D6", "D7", "D8", "D9", "D10", "D11", "P5", "D12"};
 
         JTable table = new JTable(results, headers);
@@ -35,13 +37,6 @@ public class Hamming {
         hammingPanel.add(new JScrollPane(table), Component.CENTER_ALIGNMENT);
 
         String newBinaryNumber = modifiedBinaryNumber(binaryNumber, Integer.parseInt(errorBitField));
-
-        JPanel decodingHammingPanel = new JPanel();
-        panel.add(decodingHammingPanel);
-
-        decodingHammingPanel.setBorder(BorderFactory.createTitledBorder(
-                                       BorderFactory.createEtchedBorder(), "Table 3. Calculation of Hamming decoded parity bits",
-                                       TitledBorder.CENTER, TitledBorder.TOP));
 
         //rows for table 3 (Hamming decodification)
         String[] decodedRow0 = this.getWord(newBinaryNumber);
@@ -61,32 +56,38 @@ public class Hamming {
         String[] finalDecodedRow4 = this.addDecodedColumns(decodedRow4, decodedParityBits[3], codedParityBits[3]);
         String[] finalDecodedRow5 = this.addDecodedColumns(decodedRow5, decodedParityBits[4], codedParityBits[4]);
 
+        String[] decodedWord = this.getCodedWord(finalDecodedRow1, finalDecodedRow2, finalDecodedRow3, finalDecodedRow4, finalDecodedRow5);
+        String[] finalDecodedWord =this.addDecodedColumns(decodedWord, " ", " ");
+
         String[] errorResults = { Character.toString(finalDecodedRow5[20].charAt(0)),
                                   Character.toString(finalDecodedRow4[20].charAt(0)),
                                   Character.toString(finalDecodedRow3[20].charAt(0)),
                                   Character.toString(finalDecodedRow2[20].charAt(0)),
                                   Character.toString(finalDecodedRow1[20].charAt(0))};
 
-        String[][] decodingResults = { finalDecodedRow0, finalDecodedRow1, finalDecodedRow2, finalDecodedRow3, finalDecodedRow4,
-                                       finalDecodedRow5};
+        String[] decodingPositions = {"Position", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", " ", " ", " "};
+
+        String[][] decodingResults = { decodingPositions, finalDecodedRow0, finalDecodedRow1, finalDecodedRow2, finalDecodedRow3, finalDecodedRow4,
+                                       finalDecodedRow5, finalDecodedWord};
 
         String[] decodingHeaders = { "  ", "P1", "P2", "D1", "P3", "D2", "D3", "D4", "P4", "D5", "D6", "D7", "D8", "D9", "D10", "D11", "P5", "D12",
                                      "Decoded Parity", "Coded Parity", "Error Calculation"};
 
         JTable decodingTable = new JTable(decodingResults, decodingHeaders);
-        decodingTable.getColumnModel().getColumn(0).setPreferredWidth(300);
-        decodingTable.getColumnModel().getColumn(14).setPreferredWidth(150);
-        decodingTable.getColumnModel().getColumn(15).setPreferredWidth(150);
-        decodingTable.getColumnModel().getColumn(17).setPreferredWidth(150);
-        decodingTable.getColumnModel().getColumn(18).setPreferredWidth(150);
-        decodingTable.getColumnModel().getColumn(19).setPreferredWidth(150);
-        decodingTable.getColumnModel().getColumn(20).setPreferredWidth(150);
-        decodingHammingPanel.add(new JScrollPane(decodingTable), Component.CENTER_ALIGNMENT);
+        decodingTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        decodingTable.getColumnModel().getColumn(14).setPreferredWidth(100);
+        decodingTable.getColumnModel().getColumn(15).setPreferredWidth(100);
+        decodingTable.getColumnModel().getColumn(17).setPreferredWidth(100);
+        decodingTable.getColumnModel().getColumn(18).setPreferredWidth(100);
+        decodingTable.getColumnModel().getColumn(19).setPreferredWidth(100);
+        decodingTable.getColumnModel().getColumn(20).setPreferredWidth(100);
+        hammingPanel.add(new JScrollPane(decodingTable), Component.CENTER_ALIGNMENT);
 
         String errorResultStr = this.createNumber(errorResults);
 
-        String errorText = "Parity error -> P5 P4 P3 P2 P1 -> " + errorResults[0] + " " + errorResults[1] + " " + errorResults[2] + " " + errorResults[3] +
-                           " " + errorResults[4] + " = " + this.getDecimalValue(errorResultStr) + " -> bit error detected in position " + this.getDecimalValue(errorResultStr);
+        String errorText = "Error with parity bits -> P5 P4 P3 P2 P1 -> " + errorResults[0] + " " + errorResults[1] + " " + errorResults[2] + " " + errorResults[3] +
+                           " " + errorResults[4] + " = " + this.getDecimalValue(errorResultStr) + " -> bit error detected in position " + this.getDecimalValue(errorResultStr) +
+                           " /// Error without parity bits -> error bit detected in position " + errorBitField;
 
         JLabel errorLabel = new JLabel(errorText, SwingConstants.CENTER);
         errorLabel.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -487,5 +488,3 @@ public class Hamming {
     }
 
 }
-
-

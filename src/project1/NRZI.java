@@ -23,7 +23,7 @@ public class NRZI extends JFrame{
 
         // Label that indicates the written number
         JLabel nrziLabel = new JLabel();
-        nrziLabel.setText(binaryNumber.substring(0,1));
+        nrziLabel.setText("          " + binaryNumber.substring(0,1));
         for (char bit: binaryNumber.substring(1).toCharArray()) {
             nrziLabel.setText(nrziLabel.getText() +
                     "                  " + bit);
@@ -62,6 +62,7 @@ public class NRZI extends JFrame{
 
         };
         nrziPanel.setBorder(BorderFactory.createEmptyBorder(0, 0,0, 0));
+        nrziPanel.setLayout(new BoxLayout(nrziPanel, 1));
         nrziPanel.add(nrziLabel);
         panel.add(nrziPanel);
 
