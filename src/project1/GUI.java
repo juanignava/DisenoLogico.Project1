@@ -125,6 +125,7 @@ public class GUI implements ActionListener {
 
             // Delete previous panel children
             if (!this.isFirstNumber){
+                this.mainPanel.remove(4);
                 this.mainPanel.remove(3);
                 this.mainPanel.remove(2);
                 this.mainPanel.remove(1);
